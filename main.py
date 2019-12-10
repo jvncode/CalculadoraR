@@ -4,8 +4,6 @@ from tkinter import ttk
 from calculator import *
 from calculator import WIDTHBTN, HEIGHTBTN
 
-
-
 class MainApp(Tk):
     def __init__(self):
         Tk.__init__(self)
@@ -14,8 +12,6 @@ class MainApp(Tk):
 
         c = Calculator(self)
         c.pack()
-
-
 
     def start(self):
         self.mainloop()
