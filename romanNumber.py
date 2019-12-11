@@ -1,4 +1,7 @@
 class RomanNumber():
+    value = 0
+    __romanValue = ''
+
     __valores = {'I':1, 'V': 5, 'X':10, 'L': 50, 'C':100, 'D': 500, 'M': 1000}
     __valores5 = { 'V': 5,  'L': 50,  'D': 500 } 
     __simbolosOrdenados = ['I', 'V', 'X', 'L', 'C', 'D', 'M']
@@ -10,15 +13,19 @@ class RomanNumber():
         3: {1: 'M', 'next': ''}
     }
 
-    def __init__(self, value):
+    def __init__(self, value=None):
         if isinstance(value, int):
             self.value = value
             self.__romanValue = self.__arabigo_a_romano()
-
-        if isinstance(value, str):
+        elif isinstance(value, str):
             self.__romanValue = value
             self.value = self.__romano_a_arabigo()
+        else:
+            raise TypeError('Argumento de RomanNumber ha de ser un entero o una cadena')
 
+    def cadenaAromano(self, cadena):
+        self.__romanValue = cadena
+        self.value = self.__romano_a_arabigo()
     
     def __invertir(self, cad):
         return cad[::-1]
@@ -164,19 +171,51 @@ class RomanNumber():
         return numArabigoTotal
 
 
-
-
-
-
-
-
-
     def __str__(self):
         return "{}".format(self.__romanValue)
+
+    def __int__(self):
+        return self.value
 
     def __repr__(self):
         return self.__romanValue
 
     def __add__(self, value):
-        #esto no funcionara
-        return RomanNumber(value) + self.value
+        resultado = value.value + self.value
+        resultado = RomanNumber(resultado)
+        return resultado
+    
+    def __radd__(self, value):
+        return self.__add__(value)
+    
+    def __sub__(self, value):
+        resultado = max(0, int(value) - self.value)
+        resultado = RomanNumber(resultado)
+        return resultado
+
+    def __rsub__(self, value):
+        return self.__sub__(value)
+
+    def __mul__(self, value):
+        resultado = value.value * self.value
+        resultado = RomanNumber(resultado)
+        return resultado
+
+    def __rmul__(self, value):
+        return self.__mul__(value)
+    
+    def __truediv__(self, value):
+        resultado = int(value) // self.value
+        resultado = RomanNumber(resultado)
+        return resultado
+
+    def __rtruediv__(self, value):
+        return self.__rtruediv__(value)
+    
+    def __div__(self, value):
+        return self.__truediv__(value)
+    def __rdiv__(self, value):
+        return self.__div__(value)
+
+    def __lt__(self, value):
+        return int(self) < int(value)
